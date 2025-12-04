@@ -110,17 +110,6 @@ python examples/evaluate_summarization.py --dataset cnn_dailymail
 ### Challenge 2: Evaluating Summaries
 **Solution**: Implement multiple metrics (ROUGE, BLEU, BERTScore) and human evaluation framework
 
-## Development Roadmap
-
-- [x] Project setup and structure
-- [ ] Text-only summarization implementation
-- [ ] Dataset loaders for all datasets
-- [ ] Image understanding module
-- [ ] Multimodal summarization
-- [ ] RAG system for Q&A
-- [ ] Evaluation framework
-- [ ] Example scripts and documentation
-
 ## License
 
 MIT License
@@ -128,3 +117,4 @@ MIT License
 ## Contributors
 
 Summer McCune
+Angel Aguilar
