@@ -1,0 +1,73 @@
+# News Summarizer Configuration
+
+# Model settings
+models:
+  summarization:
+    model_name: "facebook/bart-large-cnn"
+    max_length: 150
+    min_length: 50
+    num_beams: 4
+    length_penalty: 2.0
+    early_stopping: true
+  
+  vision:
+    model_name: "Salesforce/blip-image-captioning-base"
+    caption_max_length: 50
+  
+  rag:
+    llm_model: "meta-llama/Llama-2-7b-chat-hf"
+    embedding_model: "sentence-transformers/all-mpnet-base-v2"
+    chunk_size: 512
+    chunk_overlap: 50
+    top_k: 5
+
+# Dataset settings
+datasets:
+  cnn_dailymail:
+    name: "abisee/cnn_dailymail"
+    version: "3.0.0"
+    cache_dir: "./data/cnn_dailymail"
+  
+  xsum:
+    name: "EdinburghNLP/xsum"
+    cache_dir: "./data/xsum"
+  
+  newsroom:
+    name: "lil-lab/newsroom"
+    cache_dir: "./data/newsroom"
+  
+  n24news:
+    cache_dir: "./data/n24news"
+    repo_url: "https://github.com/billywzh717/N24News"
+
+# Vector database settings
+vector_db:
+  type: "chroma"  # Options: chroma, faiss
+  persist_directory: "./data/vector_db"
+  collection_name: "news_articles"
+
+# Evaluation settings
+evaluation:
+  metrics:
+    - "rouge"
+    - "bleu"
+    - "bertscore"
+  rouge_types:
+    - "rouge1"
+    - "rouge2"
+    - "rougeL"
+  
+# Training settings
+training:
+  batch_size: 8
+  learning_rate: 5e-5
+  num_epochs: 3
+  warmup_steps: 500
+  weight_decay: 0.01
+  output_dir: "./models/checkpoints"
+  logging_steps: 100
+  save_steps: 1000
+
+# Device settings
+device: "cuda"  # Options: cuda, cpu, mps
+mixed_precision: true
