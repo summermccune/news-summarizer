@@ -116,5 +116,4 @@ MIT License
 
 ## Contributors
 
-Summer McCune
-Angel Aguilar
+Summer McCune and Angel Aguilar
