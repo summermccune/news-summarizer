@@ -1,4 +1,4 @@
-"""Vector store for document embeddings and retrieval."""
+#Vector store for document embeddings and retrieval
 from typing import List, Dict, Any, Optional, Union
 import numpy as np
 from pathlib import Path
@@ -8,13 +8,7 @@ from ..config import load_config
 
 
 class VectorStore:
-    """
-    Vector store for storing and retrieving document embeddings.
-    
-    Uses sentence transformers to create embeddings and FAISS/ChromaDB
-    for efficient similarity search.
-    """
-    
+   
     def __init__(
         self,
         embedding_model: Optional[str] = None,
@@ -22,15 +16,7 @@ class VectorStore:
         config_path: str = "config.yaml",
         backend: str = "faiss"
     ):
-        """
-        Initialize the vector store.
-        
-        Args:
-            embedding_model: Sentence transformer model name
-            persist_directory: Directory to persist the vector store
-            config_path: Path to configuration file
-            backend: Backend to use ('faiss' or 'chroma')
-        """
+       
         # Load configuration
         self.config = load_config(config_path)
         
@@ -69,14 +55,7 @@ class VectorStore:
         metadata: Optional[List[Dict[str, Any]]] = None,
         chunk_size: Optional[int] = None
     ):
-        """
-        Add documents to the vector store.
-        
-        Args:
-            documents: List of document texts
-            metadata: Optional metadata for each document
-            chunk_size: Size of chunks to split documents into
-        """
+      
         # Chunk documents if needed
         if chunk_size:
             documents, metadata = self._chunk_documents(documents, metadata, chunk_size)
@@ -97,7 +76,6 @@ class VectorStore:
         metadata: Optional[List[Dict[str, Any]]],
         chunk_size: int
     ):
-        """Split documents into chunks."""
         chunked_docs = []
         chunked_metadata = []
         
@@ -124,7 +102,6 @@ class VectorStore:
         embeddings: np.ndarray,
         metadata: Optional[List[Dict[str, Any]]]
     ):
-        """Add documents to FAISS index."""
         # Initialize index if needed
         if self.index is None:
             dimension = embeddings.shape[1]
@@ -146,7 +123,6 @@ class VectorStore:
         embeddings: np.ndarray,
         metadata: Optional[List[Dict[str, Any]]]
     ):
-        """Add documents to ChromaDB collection."""
         # Generate IDs
         start_id = len(self.documents)
         ids = [f"doc_{start_id + i}" for i in range(len(documents))]
@@ -166,16 +142,7 @@ class VectorStore:
         query: str,
         top_k: int = 5
     ) -> List[Dict[str, Any]]:
-        """
-        Search for similar documents.
-        
-        Args:
-            query: Query text
-            top_k: Number of results to return
-            
-        Returns:
-            List of results with documents and metadata
-        """
+      
         # Generate query embedding
         query_embedding = self.embedding_model.encode([query])
         
@@ -224,7 +191,6 @@ class VectorStore:
         return formatted_results
     
     def save(self, filename: str = "vector_store.pkl"):
-        """Save the vector store to disk."""
         if self.backend == "faiss":
             save_path = self.persist_directory / filename
             with open(save_path, 'wb') as f:
@@ -242,7 +208,6 @@ class VectorStore:
         # ChromaDB persists automatically
     
     def load(self, filename: str = "vector_store.pkl"):
-        """Load the vector store from disk."""
         if self.backend == "faiss":
             load_path = self.persist_directory / filename
             if load_path.exists():

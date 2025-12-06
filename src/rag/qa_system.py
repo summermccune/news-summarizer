@@ -1,4 +1,4 @@
-"""Question Answering system using RAG."""
+#Question Answering system using RAG
 from typing import List, Dict, Any, Optional, Union
 from pathlib import Path
 from PIL import Image
@@ -9,12 +9,7 @@ from ..config import load_config
 
 
 class QASystem:
-    """
-    Question Answering system using Retrieval-Augmented Generation.
-    
-    Combines retrieval from vector store with generation to answer questions
-    about news articles grounded in source material.
-    """
+
     
     def __init__(
         self,
@@ -24,16 +19,7 @@ class QASystem:
         config_path: str = "config.yaml",
         backend: str = "faiss"
     ):
-        """
-        Initialize the QA system.
-        
-        Args:
-            embedding_model: Model for embeddings
-            llm_model: Language model for generation
-            persist_directory: Directory for vector store
-            config_path: Path to configuration file
-            backend: Vector store backend
-        """
+     
         # Load configuration
         self.config = load_config(config_path)
         
@@ -71,15 +57,7 @@ class QASystem:
         images: Optional[List[Union[str, Path, Image.Image]]] = None,
         metadata: Optional[Dict[str, Any]] = None
     ):
-        """
-        Index a news article for retrieval.
-        
-        Args:
-            text: Article text
-            article_id: Unique article identifier
-            images: Related images
-            metadata: Additional metadata
-        """
+      
         # Prepare metadata
         meta = metadata or {}
         if article_id:
@@ -102,12 +80,7 @@ class QASystem:
         self,
         articles: List[Dict[str, Any]]
     ):
-        """
-        Index multiple articles.
-        
-        Args:
-            articles: List of article dicts with 'text', 'id', 'images', etc.
-        """
+       
         for article in articles:
             self.index_article(
                 text=article['text'],
@@ -121,16 +94,7 @@ class QASystem:
         query: str,
         top_k: Optional[int] = None
     ) -> List[Dict[str, Any]]:
-        """
-        Retrieve relevant passages for a query.
-        
-        Args:
-            query: Search query
-            top_k: Number of results
-            
-        Returns:
-            List of relevant passages with metadata
-        """
+       
         top_k = top_k or self.top_k
         return self.vector_store.search(query, top_k=top_k)
     
@@ -140,17 +104,7 @@ class QASystem:
         top_k: Optional[int] = None,
         return_sources: bool = True
     ) -> Union[str, Dict[str, Any]]:
-        """
-        Answer a question using RAG.
-        
-        Args:
-            question: Question to answer
-            top_k: Number of passages to retrieve
-            return_sources: Whether to return source passages
-            
-        Returns:
-            Answer string or dict with answer and sources
-        """
+     
         # Retrieve relevant passages
         retrieved = self.retrieve(question, top_k=top_k)
         
@@ -199,16 +153,7 @@ Answer:"""
         query: str,
         top_k: Optional[int] = None
     ) -> Dict[str, Any]:
-        """
-        Retrieve passages and related images.
-        
-        Args:
-            query: Search query
-            top_k: Number of results
-            
-        Returns:
-            Dict with passages and image information
-        """
+       
         retrieved = self.retrieve(query, top_k=top_k)
         
         # Extract unique image captions

@@ -1,4 +1,4 @@
-"""Evaluation metrics for summarization quality."""
+#Evaluation metrics for summarization quality
 from typing import List, Dict, Any, Union, Optional
 import numpy as np
 from rouge_score import rouge_scorer
@@ -7,27 +7,11 @@ import sacrebleu
 
 
 class SummarizationMetrics:
-    """
-    Comprehensive evaluation metrics for text summarization.
-    
-    Includes:
-    - ROUGE (ROUGE-1, ROUGE-2, ROUGE-L)
-    - BLEU
-    - BERTScore
-    """
-    
     def __init__(
         self,
         rouge_types: Optional[List[str]] = None,
         use_stemmer: bool = True
     ):
-        """
-        Initialize evaluation metrics.
-        
-        Args:
-            rouge_types: Types of ROUGE to compute (default: rouge1, rouge2, rougeL)
-            use_stemmer: Whether to use stemming for ROUGE
-        """
         self.rouge_types = rouge_types or ['rouge1', 'rouge2', 'rougeL']
         self.rouge_scorer = rouge_scorer.RougeScorer(
             self.rouge_types,
@@ -39,16 +23,7 @@ class SummarizationMetrics:
         predictions: Union[str, List[str]],
         references: Union[str, List[str]]
     ) -> Dict[str, float]:
-        """
-        Compute ROUGE scores.
-        
-        Args:
-            predictions: Generated summary/summaries
-            references: Reference summary/summaries
-            
-        Returns:
-            Dictionary of ROUGE scores
-        """
+  
         # Handle single string inputs
         if isinstance(predictions, str):
             predictions = [predictions]
@@ -75,16 +50,7 @@ class SummarizationMetrics:
         predictions: Union[str, List[str]],
         references: Union[str, List[str], List[List[str]]]
     ) -> Dict[str, float]:
-        """
-        Compute BLEU score.
-        
-        Args:
-            predictions: Generated summary/summaries
-            references: Reference summary/summaries (can be multiple per prediction)
-            
-        Returns:
-            Dictionary with BLEU score
-        """
+    
         # Handle single string inputs
         if isinstance(predictions, str):
             predictions = [predictions]
@@ -120,18 +86,7 @@ class SummarizationMetrics:
         lang: str = 'en',
         model_type: Optional[str] = None
     ) -> Dict[str, float]:
-        """
-        Compute BERTScore.
-        
-        Args:
-            predictions: Generated summary/summaries
-            references: Reference summary/summaries
-            lang: Language code
-            model_type: BERT model to use (default: auto-select)
-            
-        Returns:
-            Dictionary with BERTScore metrics
-        """
+    
         # Handle single string inputs
         if isinstance(predictions, str):
             predictions = [predictions]
@@ -159,17 +114,6 @@ class SummarizationMetrics:
         references: Union[str, List[str]],
         compute_bertscore: bool = True
     ) -> Dict[str, float]:
-        """
-        Compute all evaluation metrics.
-        
-        Args:
-            predictions: Generated summary/summaries
-            references: Reference summary/summaries
-            compute_bertscore: Whether to compute BERTScore (can be slow)
-            
-        Returns:
-            Dictionary with all metrics
-        """
         results = {}
         
         # ROUGE
@@ -194,18 +138,7 @@ class SummarizationMetrics:
         compute_bertscore: bool = False,
         batch_size: int = 100
     ) -> Dict[str, Any]:
-        """
-        Evaluate predictions on a full dataset.
-        
-        Args:
-            predictions: List of generated summaries
-            references: List of reference summaries
-            compute_bertscore: Whether to compute BERTScore
-            batch_size: Batch size for evaluation
-            
-        Returns:
-            Dictionary with aggregated metrics and statistics
-        """
+
         all_results = {
             'rouge1': [],
             'rouge2': [],
@@ -246,13 +179,6 @@ class SummarizationMetrics:
         return aggregated
     
     def print_scores(self, scores: Dict[str, float], title: str = "Evaluation Results"):
-        """
-        Pretty print evaluation scores.
-        
-        Args:
-            scores: Dictionary of scores
-            title: Title for the output
-        """
         print(f"\n{title}")
         print("=" * 50)
         for metric, score in scores.items():

@@ -1,18 +1,9 @@
-"""
-Example script for evaluating summarization models.
-
-This script demonstrates how to:
-1. Load a test dataset
-2. Generate summaries
-3. Compute comprehensive evaluation metrics
-4. Save results
-"""
 import sys
 from pathlib import Path
 import json
 from datetime import datetime
 
-# Add src to path
+#add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.data import CNNDailyMailLoader, XSumLoader
@@ -21,18 +12,11 @@ from src.evaluation import SummarizationMetrics
 
 
 def evaluate_on_dataset(dataset_name: str = 'cnn_dailymail', num_samples: int = 100):
-    """
-    Evaluate summarizer on a dataset.
-    
-    Args:
-        dataset_name: Name of dataset ('cnn_dailymail' or 'xsum')
-        num_samples: Number of samples to evaluate
-    """
     print("=" * 70)
     print(f"Evaluating on {dataset_name.upper()}")
     print("=" * 70)
     
-    # 1. Load dataset
+    #load dataset
     print(f"\n1. Loading {dataset_name} dataset...")
     if dataset_name == 'cnn_dailymail':
         loader = CNNDailyMailLoader(cache_dir=f"./data/{dataset_name}")
@@ -45,12 +29,12 @@ def evaluate_on_dataset(dataset_name: str = 'cnn_dailymail', num_samples: int = 
     print(f"   Loaded dataset with {len(dataset)} samples")
     print(f"   Evaluating on {num_samples} samples\n")
     
-    # 2. Initialize summarizer
+    #initialize summarizer
     print("2. Initializing summarizer...")
     summarizer = TextSummarizer()
     print()
     
-    # 3. Generate summaries
+    #generate summaries
     print("3. Generating summaries...")
     predictions = []
     references = []
@@ -63,7 +47,7 @@ def evaluate_on_dataset(dataset_name: str = 'cnn_dailymail', num_samples: int = 
         article = sample['article']
         reference = sample['summary']
         
-        # Generate summary
+        #generate summary
         prediction = summarizer.summarize(article)
         
         predictions.append(prediction)
@@ -71,11 +55,11 @@ def evaluate_on_dataset(dataset_name: str = 'cnn_dailymail', num_samples: int = 
     
     print(f"   Generated {len(predictions)} summaries\n")
     
-    # 4. Evaluate
+    #evaluate
     print("4. Computing evaluation metrics...")
     metrics = SummarizationMetrics()
     
-    # Compute all metrics
+    #compute all metrics
     print("   Computing ROUGE scores...")
     rouge_scores = metrics.compute_rouge(predictions, references)
     
@@ -85,13 +69,13 @@ def evaluate_on_dataset(dataset_name: str = 'cnn_dailymail', num_samples: int = 
     print("   Computing BERTScore (this may take a while)...")
     bert_scores = metrics.compute_bertscore(predictions, references)
     
-    # Combine all scores
+    #combine all scores
     all_scores = {**rouge_scores, **bleu_scores, **bert_scores}
     
-    # Print results
+    #print results
     metrics.print_scores(all_scores, f"Results on {dataset_name.upper()}")
     
-    # 5. Save results
+    #save results
     results_dir = Path("./results")
     results_dir.mkdir(exist_ok=True)
     
@@ -119,7 +103,6 @@ def evaluate_on_dataset(dataset_name: str = 'cnn_dailymail', num_samples: int = 
 
 
 def main():
-    """Run evaluation on multiple datasets."""
     import argparse
     
     parser = argparse.ArgumentParser(description='Evaluate summarization model')

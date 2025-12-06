@@ -1,4 +1,4 @@
-"""Evaluation metrics for summarization."""
+#Evaluation metrics for summarization
 from .metrics import SummarizationMetrics
 
 __all__ = ['SummarizationMetrics']

@@ -1,12 +1,3 @@
-"""
-Example script for multimodal summarization.
-
-This script demonstrates how to:
-1. Load a dataset with images (N24News)
-2. Initialize the multimodal summarizer
-3. Generate summaries with visual context
-4. Compare text-only vs multimodal summaries
-"""
 import sys
 from pathlib import Path
 
@@ -18,12 +9,11 @@ from src.models import MultimodalSummarizer
 
 
 def main():
-    """Run multimodal summarization example."""
     print("=" * 70)
     print("Multimodal Summarization Example")
     print("=" * 70)
     
-    # 1. Load dataset
+    #load dataset
     print("\n1. Loading N24News dataset...")
     print("   Note: This requires the N24News dataset to be downloaded.")
     print("   Download from: https://github.com/billywzh717/N24News")
@@ -32,7 +22,7 @@ def main():
         loader = N24NewsLoader(data_dir="./data/n24news")
         dataset = loader.load(split='train')
         
-        # Find samples with images
+        #find samples with images
         samples_with_images = []
         for i in range(len(loader)):
             sample = loader.get_sample(i)
@@ -55,12 +45,12 @@ def main():
         use_images = False
         samples_with_images = []
     
-    # 2. Initialize summarizer
+    #initialize summarizer
     print("2. Initializing multimodal summarizer...")
     summarizer = MultimodalSummarizer()
     print()
     
-    # 3. Generate summaries
+    #generate summaries
     print("3. Generating summaries...")
     print("-" * 70)
     
@@ -84,7 +74,7 @@ def main():
             print(f"\nMultimodal Summary:\n{result['multimodal_summary']}")
             print("-" * 70)
     else:
-        # Use a sample article without images
+        #use a sample article without images
         sample_article = """
         Scientists have discovered a new species of deep-sea fish in the Pacific Ocean.
         The fish, which glows in the dark, was found at a depth of 3,000 meters.

@@ -1,2 +1,2 @@
-"""News Summarizer Package"""
+#News Summarizer Package
 __version__ = "0.1.0"

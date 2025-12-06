@@ -1,16 +1,7 @@
-"""
-Example script for RAG-based Question Answering.
-
-This script demonstrates how to:
-1. Initialize the QA system
-2. Index news articles
-3. Ask questions and retrieve answers
-4. Retrieve relevant passages and images
-"""
 import sys
 from pathlib import Path
 
-# Add src to path
+#add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.data import CNNDailyMailLoader
@@ -23,17 +14,17 @@ def main():
     print("RAG-based Question Answering Example")
     print("=" * 70)
     
-    # 1. Initialize QA system
+    #initialize QA system
     print("\n1. Initializing QA system...")
     qa_system = QASystem(backend="faiss")
     print()
     
-    # 2. Load and index articles
+    #load and index articles
     print("2. Loading and indexing articles...")
     loader = CNNDailyMailLoader(cache_dir="./data/cnn_dailymail")
     dataset = loader.load(split='validation')
     
-    # Index first 10 articles
+    #index first 10 articles
     num_articles = 10
     print(f"   Indexing {num_articles} articles...")
     
@@ -47,7 +38,7 @@ def main():
     
     print(f"   Indexed {num_articles} articles\n")
     
-    # 3. Ask questions
+    #ask questions
     print("3. Asking questions...")
     print("-" * 70)
     
@@ -60,7 +51,7 @@ def main():
     for i, question in enumerate(questions):
         print(f"\nQuestion {i+1}: {question}")
         
-        # Get answer with sources
+        #get answer with sources
         result = qa_system.answer_question(question, top_k=3, return_sources=True)
         
         print(f"\nAnswer: {result['answer']}")
@@ -73,7 +64,7 @@ def main():
         
         print("-" * 70)
     
-    # 4. Retrieval example
+    #retrieval example
     print("\n4. Retrieval example...")
     print("-" * 70)
     
@@ -90,7 +81,7 @@ def main():
     
     print("-" * 70)
     
-    # 5. Save index
+    #save index
     print("\n5. Saving vector store...")
     qa_system.save()
     print("   Vector store saved successfully")
